@@ -1,0 +1,24 @@
+.list {
+    list-style: none;
+    list-style-type: none;
+    width: 100%;
+}
+
+.option {
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 5px #e1e1e1;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: 0.5s;
+}
+
+.option p::first-letter{
+    margin-left: 10px;
+}
+
+.option:hover {
+    background-color:  #f1f1f1;
+}
