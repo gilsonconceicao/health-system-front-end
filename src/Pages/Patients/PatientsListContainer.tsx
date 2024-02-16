@@ -5,15 +5,13 @@ import { usePatientServicesHook } from '@/Hooks/PatientServicesHook'
 
 export const PatientsListContainer = () => {
 
-  const { data } = usePatientServicesHook();
-
-  console.log(data)
+  const { data:patientsData } = usePatientServicesHook();
 
   return (
     <div>
 
       <PatientsList
-
+        data={patientsData?.data ?? []}
       />
     </div>
   )
