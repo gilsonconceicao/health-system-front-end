@@ -10,10 +10,11 @@ import React from 'react'
 import { IconButton } from '@chakra-ui/react'
 
 type PatientsListProps = {
-  data: PatientsFull[]
+  data: PatientsFull[]; 
+  setActionStep: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-export const PatientsList = ({ data }: PatientsListProps) => {
+export const PatientsList = ({ data, setActionStep }: PatientsListProps) => {
 
   const columns: ColumnDef<PatientsFull>[] = [
     {
@@ -56,7 +57,7 @@ export const PatientsList = ({ data }: PatientsListProps) => {
 
         return (
           <div className='flex items-center justify-end gap-2'>
-            <IconButton aria-label='Search database' icon={<CiEdit />} />
+            <IconButton aria-label='Search database' icon={<CiEdit />}  onClick={() => setActionStep('edit')}/>
             <IconButton aria-label='Search database' icon={<FaRegTrashCan />} />
           </div>
         )

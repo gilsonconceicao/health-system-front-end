@@ -1,4 +1,4 @@
-import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay } from '@chakra-ui/react'
+import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, DrawerProps } from '@chakra-ui/react'
 import React from 'react'
 
 type DrawerComponentProps = {
@@ -6,18 +6,22 @@ type DrawerComponentProps = {
     onClose: () => void;
     isOpen: boolean;
     Element: React.ReactNode
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
+    placement?: 'right' | 'left' | 'top' | 'bottom'
 }
 
-export default function DrawerComponent (props: DrawerComponentProps) {
-    const { Element, isOpen, onClose, title } = props;
+export default function DrawerComponent(props: DrawerComponentProps) {
+    const { Element,title, ...rest } = props;
     return (
-        <Drawer onClose={onClose} isOpen={isOpen} size={'md'}>
+        <Drawer {
+            ...rest
+        }>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
                 <DrawerHeader>{title}</DrawerHeader>
                 <DrawerBody>
-                  {Element}
+                    {Element}
                 </DrawerBody>
             </DrawerContent>
         </Drawer>

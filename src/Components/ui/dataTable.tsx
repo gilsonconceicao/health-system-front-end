@@ -34,6 +34,7 @@ import {
     TableHeader,
     TableRow,
 } from "./table"
+import { Text } from "@chakra-ui/react"
 
 export type DataTableDemoProps<T> = {
     title: string;
@@ -73,11 +74,11 @@ export function DataTableDemo<T> ({ title, columns, data, noResultLabel}: DataTa
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                {title}
+               <Text fontSize='19px' fontWeight='bold'>{title}</Text>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown className="ml-2 h-4 w-4" />
+                            Colunas <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
