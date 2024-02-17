@@ -1,24 +1,48 @@
-import { getPatientsListAsync } from "@/Services/PatientsServices"
-import { useQuery } from "@tanstack/react-query"
+import { createOrEditPatientAsync, deletePatientByIdAsync, getPatientsListAsync } from "@/Services/PatientsServices"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const usePatientServicesHook = () => {
-    
+
     const { data, ...rest } = useQuery({
-        queryKey: ["get-patients"], 
-        refetchInterval: false, 
+        queryKey: ["get-patients"],
+        refetchInterval: false,
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         queryFn: async () => {
-            const response =  await getPatientsListAsync();
-            
-            return response?.data; 
+            const response = await getPatientsListAsync();
+
+            return response?.data;
         }
     })
 
     return {
-        data, 
+        data,
         ...rest
     }
+}
+
+export const useCreateOrEditPatientMutation = (id: string, onSuccess?: () => void) => {
+    return useMutation({
+        mutationFn: async (params: PatientsFull) => {
+            await createOrEditPatientAsync(params, id)
+        },
+        onSuccess: (success, _) => onSuccess && onSuccess(), 
+        onError: (error, _) => {
+            console.log('mutationError', error)
+        }
+    })
+}
+
+export const useDeletePatientMutation = (onSuccess?: () => void) => {
+    return useMutation({
+        mutationFn: async (id: string) => {
+            await deletePatientByIdAsync(id)
+        },
+        onSuccess: (success, _) => onSuccess && onSuccess(), 
+        onError: (error, _) => {
+            console.log('mutationError', error)
+        }
+    })
 }
 
 export interface PatientsFull {
@@ -34,9 +58,9 @@ export interface PatientsFull {
     birthDate: string
     address: Address
     appointments: any[]
-  }
-  
-  export interface Address {
+}
+
+export interface Address {
     id: string
     street: string
     state: string
@@ -44,5 +68,4 @@ export interface PatientsFull {
     city: string
     number: string
     patientId: string
-  }
-  
+}

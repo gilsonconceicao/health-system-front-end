@@ -3,12 +3,22 @@ import { Button } from '@/Components/ui/button'
 import { Stack } from '@chakra-ui/react'
 import React from 'react'
 
-export const PatientsForm = () => {
+type PatientsFormProps = {
+    isLoading: boolean
+}
+
+export const PatientsForm: React.FC<PatientsFormProps> = ({
+    isLoading
+}) => {
     return (
         <Stack spacing={4} mb={3}>
             <TextFormField
                 label='Nome'
                 name='name'
+            />
+            <TextFormField
+                label='Sobrenome'
+                name='lastName'
             />
             <TextFormField
                 label='Email'
@@ -22,7 +32,7 @@ export const PatientsForm = () => {
                 label='Número de telefone'
                 name='phoneNumber'
             />
-            <Button type='submit'>Salvar</Button>
+            <Button type='submit' disabled={isLoading}>Salvar</Button>
         </Stack>
     )
 }

@@ -1,7 +1,7 @@
 import DataGridTable from '@/Components/Table/Table'
 import { Button } from '@/Components/ui/button'
 import { PatientsFull } from '@/Hooks/PatientServicesHook'
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, Row } from '@tanstack/react-table'
 import { Trash } from 'lucide-react'
 import { FaRegTrashCan } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
@@ -10,11 +10,12 @@ import React from 'react'
 import { IconButton } from '@chakra-ui/react'
 
 type PatientsListProps = {
-  data: PatientsFull[]; 
-  setActionStep: React.Dispatch<React.SetStateAction<string | undefined>>
+  data: PatientsFull[];
+  setActionStep: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setRowSelected: (data: PatientsFull) => void;
 }
 
-export const PatientsList = ({ data, setActionStep }: PatientsListProps) => {
+export const PatientsList = ({ data, setActionStep, setRowSelected }: PatientsListProps) => {
 
   const columns: ColumnDef<PatientsFull>[] = [
     {
@@ -22,6 +23,13 @@ export const PatientsList = ({ data, setActionStep }: PatientsListProps) => {
       header: "Nome",
       cell: ({ row }) => (
         <div >{row.getValue("name")}</div>
+      ),
+    },
+    {
+      accessorKey: "lastName",
+      header: "Sobrenome",
+      cell: ({ row }) => (
+        <div >{row.getValue("lastName")}</div>
       ),
     },
     {
@@ -53,12 +61,23 @@ export const PatientsList = ({ data, setActionStep }: PatientsListProps) => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const payment = row.original
-
         return (
           <div className='flex items-center justify-end gap-2'>
-            <IconButton aria-label='Search database' icon={<CiEdit />}  onClick={() => setActionStep('edit')}/>
-            <IconButton aria-label='Search database' icon={<FaRegTrashCan />} />
+            <IconButton
+              aria-label='Search database'
+              icon={<CiEdit />}
+              onClick={() => {
+                setActionStep('edit');
+                setRowSelected(row.original)
+              }} />
+            <IconButton
+              aria-label='Search database'
+              icon={<FaRegTrashCan />}
+              onClick={() => {
+                setActionStep('delete');
+                setRowSelected(row.original)
+              }}
+            />
           </div>
         )
       },

@@ -5,16 +5,18 @@ type ModalComponentProps = {
     onClose: () => void;
     isOpen: boolean;
     Element: React.ReactNode
+    description?: string;
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
 }
 
-export function ModalComponent({ Element, title, ...rest}: ModalComponentProps) {
+export function ModalComponent({ Element, title, description,  ...rest}: ModalComponentProps) {
 
     return (
         <Modal {...rest}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>{title}</ModalHeader>
+                <Text  style={{fontSize: '13px', margin: '-10px 0 20px 23px'}}>{description}</Text>
                 <ModalCloseButton />
                 <ModalBody>
                    {Element}

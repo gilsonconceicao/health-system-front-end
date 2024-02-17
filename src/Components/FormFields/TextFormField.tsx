@@ -21,6 +21,7 @@ export const TextFormField = ({ name, label, ...rest }: TextFormFieldProps) => {
       }) => {
         return (
           <Grid>
+            {!!value && <label style={{fontSize: '12px'}}>{label}</label>}
             <Input 
               placeholder={label}
               onChange={onChange}
