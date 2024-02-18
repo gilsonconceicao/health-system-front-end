@@ -22,7 +22,7 @@ export const AppointmentsList = ({ data, setAction }: AppointmentsListProps) => 
       accessorKey: "patient",
       header: "Nome do paciente",
       cell: ({ row }) => (
-        <div >{row.original.patient.name}</div>
+        <div >{row.original.patient?.name}</div>
       ),
     },
     {

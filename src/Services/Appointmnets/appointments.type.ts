@@ -12,3 +12,5 @@ export type AppointmentsFull = {
     patientId: string
     patient: PatientsFull
 }
+
+export type OptionsTypeSteps = "Completed" | "Cancel" | "ConfirmParticipation"

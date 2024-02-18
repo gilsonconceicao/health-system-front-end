@@ -12,11 +12,11 @@ import { appointmentsFormSchema, defaultValuesAppointmentsForm } from './Appoint
 import { AppointmentForm } from './AppointmentForm/AppointmentForm'
 import DrawerComponent from '@/Components/Drawer/DrawerComponent'
 import { AppointmentsActions } from './AppointmentsActions'
+import { usePatientServicesHook } from '@/Hooks/PatientServicesHook'
 
 export const AppointmentsListContainer = () => {
   const [action, setAction] = useState<{ action: string, data?: AppointmentsFull } | undefined>(undefined);
   const { data: appointmentsData, refetch, isFetching, status } = useAppointmentsServicesHook();
-
   const selectedId = action?.data?.id;
 
   const onCloseStep = () => setAction(undefined)
@@ -54,15 +54,16 @@ export const AppointmentsListContainer = () => {
         </div>
         :
         <AppointmentsList
-          setAction={setAction}
+          setAction={(preferences) => setAction(preferences)}
           data={appointmentsData?.data ?? []}
         />
       }
 
       <DrawerComponent
-        isOpen={!!action?.action}
+        isOpen={action?.action === 'showMenu'}
         onClose={() => setAction(undefined)}
         title='Ações'
+        placement='left'
         size='md'
         Element={<AppointmentsActions rowSelected={action?.data!}/>}
       />
@@ -79,6 +80,7 @@ export const AppointmentsListContainer = () => {
           >
             <AppointmentForm
               isLoading={statusCreateOrEdit === 'pending'}
+
             />
           </FormContextProvider>
         }

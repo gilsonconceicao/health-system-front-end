@@ -7,8 +7,8 @@ export const usePatientServicesHook = () => {
     const { data, ...rest } = useQuery({
         queryKey: ["get-patients"],
         refetchInterval: false,
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
+        refetchOnWindowFocus: 'always',
+        refetchOnMount: 'always',
         queryFn: async () => {
             const response = await getPatientsListAsync();
 

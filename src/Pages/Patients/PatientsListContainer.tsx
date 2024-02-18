@@ -10,6 +10,7 @@ import { FieldValues } from 'react-hook-form'
 import { Button } from '@/Components/ui/button'
 import { Spinner, Stack } from '@chakra-ui/react'
 import { PatientsFull } from '@/Services/Patients/patients.type'
+import DrawerComponent from '@/Components/Drawer/DrawerComponent'
 
 export const PatientsListContainer = () => {
   const [actionStep, setActionStep] = useState<string | undefined>(undefined);
@@ -62,10 +63,11 @@ export const PatientsListContainer = () => {
         />
       }
 
-      <ModalComponent
+      <DrawerComponent
         title={actionStep === 'edit' ? "Editar paciente" : "Criar paciente"}
         isOpen={['edit', 'create'].includes(actionStep!)}
-        size='xl'
+        size='md'
+        placement='left'
         Element={
           <FormContextProvider
             defaultValues={rowSelected ?? defaultValuesPatientsForm}
