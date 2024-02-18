@@ -1,5 +1,5 @@
 import { createOrEditAppointmentAsync, deleteAppointmentsByIdAsync, feedbackAppointmentsAsync, getAppointmentsListAsync, jumpEveryStepsAppointmentsAsync } from "@/Services/Appointmnets/AppointmentsServices";
-import { AppointmentsFull, OptionsTypeSteps } from "@/Services/Appointmnets/appointments.type";
+import { appointmentsCreate, OptionsTypeSteps } from "@/Services/Appointmnets/appointments.type";
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 export const useAppointmentsServicesHook = () => {
@@ -21,10 +21,14 @@ export const useAppointmentsServicesHook = () => {
     }
 }
 
-export const useCreateOrEditAppointmentsMutation = (id: string, onSuccess?: () => void) => {
+export const useCreateOrEditAppointmentsMutation = (onSuccess?: () => void) => {
     return useMutation({
-        mutationFn: async (params: AppointmentsFull) => {
-            await createOrEditAppointmentAsync(params, id)
+        mutationFn: async (params: appointmentsCreate) => {
+            const payload = {
+                appointmentDate: params.appointmentDate,
+                reason: params.reason
+            }
+            await createOrEditAppointmentAsync(payload, params.patientId); 
         },
         onSuccess: (success, _) => onSuccess && onSuccess(),
         onError: (error, _) => {

@@ -2,6 +2,7 @@ import { DatePickerFormField } from '@/Components/FormFields/DatePickerFormField
 import { SelectFormField, SelectOptionType } from '@/Components/FormFields/SelectFormField'
 import { TextFormField } from '@/Components/FormFields/TextFormField'
 import { Button } from '@/Components/ui/button'
+import { useFormContext } from '@/Contexts/FormContext'
 import { usePatientServicesHook } from '@/Hooks/PatientServicesHook'
 import { PatientsFull } from '@/Services/Patients/patients.type'
 import { Spinner, Stack, Text } from '@chakra-ui/react'
@@ -14,6 +15,8 @@ type AppointmentFormProps = {
 export const AppointmentForm: React.FC<AppointmentFormProps> = ({
     isLoading, 
 }) => {
+    const { watch}
+     = useFormContext()
     const { data: patientsData, status: patientsStatus} = usePatientServicesHook();
 
     const options: SelectOptionType[] = patientsData?.data.map((item: PatientsFull) => {

@@ -40,6 +40,13 @@ export const AppointmentsList = ({ data, setAction }: AppointmentsListProps) => 
       },
     },
     {
+      accessorKey: "statusDisplay",
+      header: "Status", 
+      cell: ({ row }) => {
+        return <div>{row.getValue("statusDisplay")}</div>
+      },
+    },
+    {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
@@ -49,7 +56,7 @@ export const AppointmentsList = ({ data, setAction }: AppointmentsListProps) => 
               aria-label='action'
               icon={<CiLocationArrow1 />}
               onClick={() => {
-                setAction({action: 'showMenu', data: row.original});
+                setAction({ action: 'showMenu', data: row.original });
               }} />
           </div>
         )

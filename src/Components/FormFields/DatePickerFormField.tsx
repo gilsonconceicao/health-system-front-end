@@ -30,9 +30,9 @@ export const DatePickerFormField = ({ name, label, ...rest }: DatePickerFormFiel
               type="date"
               placeholder={label}
               onChange={(event) => {
-                const value = event.target.value
-                const valueToSave = moment(value).format()
-                setValue(name, valueToSave); 
+                const inputValue = event.target.value;
+                const isoDate = new Date(inputValue).toISOString();
+                setValue(name, isoDate);
                 setValue(`${name}Display`, value); 
               }}
               value={formatShowValue ?? value}

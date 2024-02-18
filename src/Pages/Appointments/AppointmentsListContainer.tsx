@@ -5,42 +5,35 @@ import { FormContextProvider } from '@/Contexts/FormContext'
 import { FieldValues } from 'react-hook-form'
 import { Button } from '@/Components/ui/button'
 import { Spinner, Stack } from '@chakra-ui/react'
-import { AppointmentsFull } from '@/Services/Appointmnets/appointments.type'
+import { appointmentsCreate, AppointmentsFull } from '@/Services/Appointmnets/appointments.type'
 import { AppointmentsList } from './AppointmentsList'
 import { useCreateOrEditAppointmentsMutation, useAppointmentsServicesHook, useDeleteAppointmentsMutation } from '@/Hooks/AppointmentsServicesHooks'
 import { appointmentsFormSchema, defaultValuesAppointmentsForm } from './AppointmentForm/AppointmentFormSchema'
 import { AppointmentForm } from './AppointmentForm/AppointmentForm'
 import DrawerComponent from '@/Components/Drawer/DrawerComponent'
 import { AppointmentsActions } from './AppointmentsActions'
-import { usePatientServicesHook } from '@/Hooks/PatientServicesHook'
 
 export const AppointmentsListContainer = () => {
   const [action, setAction] = useState<{ action: string, data?: AppointmentsFull } | undefined>(undefined);
-  const { data: appointmentsData, refetch, isFetching, status } = useAppointmentsServicesHook();
-  const selectedId = action?.data?.id;
+  const { data: appointmentsData, refetch, isPending } = useAppointmentsServicesHook();
 
   const onCloseStep = () => setAction(undefined)
 
-  const { mutate, status: statusCreateOrEdit } = useCreateOrEditAppointmentsMutation(
-    selectedId ?? 'new',
-    () => {
-      refetch();
-      onCloseStep()
-    }
-  );
-
-  const onSubmit = (values: FieldValues) => {
-    mutate(values as AppointmentsFull);
+  const handleSuccess = () => {
+    refetch();
+    onCloseStep();
   }
 
-  const isLoading = status === 'pending' || isFetching;
+  const { mutate, status: statusCreateOrEdit } = useCreateOrEditAppointmentsMutation(handleSuccess);
+
+  const onSubmit = (values: FieldValues) => mutate(values as appointmentsCreate);
 
   return (
     <div>
 
       <Stack direction='row' alignItems='center'>
         <Button onClick={() => setAction({ action: 'create' })}>
-          Criar paciente
+          Adicionar consulta
         </Button>
         <Button onClick={() => refetch()} variant='outline' >
           Atualizar
@@ -48,7 +41,7 @@ export const AppointmentsListContainer = () => {
 
       </Stack>
 
-      {isLoading ?
+      {isPending ?
         <div style={{ margin: "10px 0" }}>
           <Spinner />
         </div>
@@ -65,11 +58,11 @@ export const AppointmentsListContainer = () => {
         title='Ações'
         placement='left'
         size='md'
-        Element={<AppointmentsActions rowSelected={action?.data!}/>}
+        Element={<AppointmentsActions rowSelected={action?.data!} handleSuccess={handleSuccess}/>}
       />
 
       <ModalComponent
-        title="Criar consulta"
+        title="Adicionar nova consulta"
         isOpen={['create'].includes(action?.action!)}
         size='xl'
         Element={

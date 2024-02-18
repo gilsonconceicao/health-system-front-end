@@ -15,6 +15,7 @@ import { defaultValuesFeedbackForm, feedbackFormSchema } from './FeedbackForm/Fe
 
 type AppointmentsActionsProps = {
     rowSelected: AppointmentsFull
+    handleSuccess: () => void
 }
 
 type OptionsProps = {
@@ -25,10 +26,12 @@ type OptionsProps = {
 }
 
 export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
-    rowSelected
+    rowSelected,
+    handleSuccess 
 }) => {
     const [action, setAction] = useState<string | undefined>(undefined);
     const onClose = () => setAction(undefined);
+    const currentStatus = rowSelected.statusDisplay; 
 
     const optionsEndpoint: { [type: string]: OptionsTypeSteps } = {
         "cancelAppointment": "Cancel",
@@ -39,15 +42,15 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
     const {
         mutate: deletePatientMutate,
         isPending: isLoadingDeleteMutation
-    } = useDeleteAppointmentsMutation();
+    } = useDeleteAppointmentsMutation(handleSuccess);
     const {
         mutate: genericMutateAsync,
         isPending: isLoadingJumpAppointmentsMutation
-    } = useJumpStepsAppointmentsMutation(optionsEndpoint[action!]);
+    } = useJumpStepsAppointmentsMutation(optionsEndpoint[action!], handleSuccess);
     const {
         mutate: addFeedbackMutate,
         isPending: isLoadingFeedbackMutation
-    } = useAddFeedbackMutation(rowSelected?.id);
+    } = useAddFeedbackMutation(rowSelected?.id, handleSuccess);
 
     const GenericComponentModal = () => {
         return <ModalConfirm
@@ -100,7 +103,7 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
     }
 
     const optionSelected = optionsActions[action!];
-
+    const disableAction = !["Cancelada", "Concluída"].includes(currentStatus);
     return (
         <div>
             <Actions
@@ -109,13 +112,13 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
                         action: () => setAction('cancelAppointment'),
                         label: "Cancelar consulta",
                         icon: <MdOutlineCancel />,
-                        enable: true
+                        enable: disableAction
                     },
                     {
                         action: () => setAction('addFeedback'),
                         label: "Adicionar feedback",
                         icon: <FaRegCommentAlt />,
-                        enable: true
+                        enable: currentStatus !== 'Cancelada'
                     },
                     {
                         action: () => setAction('delete'),
@@ -127,13 +130,13 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
                         action: () => setAction('confirmPresence'),
                         label: "Confirmar presença",
                         icon: <GiConfirmed />,
-                        enable: true
+                        enable: disableAction
                     },
                     {
                         action: () => setAction('finished'),
-                        label: "Finalizada",
+                        label: "Concluir",
                         icon: <FaCalendarCheck />,
-                        enable: true
+                        enable: disableAction
                     },
                 ]}
             />

@@ -13,4 +13,14 @@ export type AppointmentsFull = {
     patient: PatientsFull
 }
 
+export type payloadCreateAppointment = {
+    reason: string
+    appointmentDate: string
+}
+export type appointmentsCreate = {
+    reason: string
+    appointmentDate: string
+    patientId: string
+}
+
 export type OptionsTypeSteps = "Completed" | "Cancel" | "ConfirmParticipation"

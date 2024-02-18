@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AppointmentsFull, OptionsTypeSteps } from "./appointments.type";
+import { payloadCreateAppointment, OptionsTypeSteps } from "./appointments.type";
 
 const url = "http://localhost:8080/Appointment"; 
 
@@ -7,12 +7,9 @@ export const getAppointmentsListAsync = async () => {
    return await axios.get(url) 
 }
 
-export const createOrEditAppointmentAsync = async (payload: AppointmentsFull, id: string) => {
-   const isCreate = id === 'new';
+export const createOrEditAppointmentAsync = async (payload: payloadCreateAppointment, patientId: string) => {
 
-   const axiosMethod = isCreate ? axios.post : axios.put;
-   const urlMethod = isCreate ? url : `${url}/${id}` 
-   return await axiosMethod(urlMethod, payload) 
+   return await axios.post(`${url}/${patientId}`, payload) 
 }
 
 export const deleteAppointmentsByIdAsync = async (id: string) => {

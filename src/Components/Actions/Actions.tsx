@@ -20,12 +20,12 @@ export const Actions: React.FC<ActionsProps> = ({ options }) => {
                 return (
                     <>
                         {item.enable &&
-                            <Stack key={indice} direction='row' justifyContent='space-between' cursor='pointer' p='5px' alignItems='center' borderRadius='8px' border='1px solid grey'>
+                            <Stack key={indice} direction='row' justifyContent='space-between' cursor='pointer' onClick={item.action} p='5px' alignItems='center' borderRadius='8px' border='1px solid grey'>
                                 <div>
                                     <Text fontSize='19px'>{item.label}</Text>
                                 </div>
                                 <IconButton aria-label={`aria-${item.label}`} style={{ cursor: 'pointer' }} onClick={item.action}>
-                                    <FaRegArrowAltCircleRight />
+                                    {item.icon}
                                 </IconButton>
                             </Stack>
                         }
