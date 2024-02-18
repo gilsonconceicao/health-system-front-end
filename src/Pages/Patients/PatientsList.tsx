@@ -1,13 +1,11 @@
 import DataGridTable from '@/Components/Table/Table'
-import { Button } from '@/Components/ui/button'
-import { PatientsFull } from '@/Hooks/PatientServicesHook'
 import { ColumnDef, Row } from '@tanstack/react-table'
-import { Trash } from 'lucide-react'
 import { FaRegTrashCan } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
 
 import React from 'react'
 import { IconButton } from '@chakra-ui/react'
+import { PatientsFull } from '@/Services/Patients/patients.type';
 
 type PatientsListProps = {
   data: PatientsFull[];
@@ -46,9 +44,7 @@ export const PatientsList = ({ data, setActionStep, setRowSelected }: PatientsLi
       accessorKey: "birthDateDisplay",
       header: "Data de nascimento",
       cell: ({ row }) => {
-        const formatDate = String(row.getValue("birthDateDisplay")).slice(0,10);
-        debugger
-        return <div>{formatDate}</div>
+        return <div>{row.getValue("birthDateDisplay")}</div>
       },
     },
     {

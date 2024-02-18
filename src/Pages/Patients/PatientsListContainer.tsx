@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { PatientsList } from './PatientsList'
-import { PatientsFull, useCreateOrEditPatientMutation, useDeletePatientMutation, usePatientServicesHook } from '@/Hooks/PatientServicesHook'
+import { useCreateOrEditPatientMutation, useDeletePatientMutation, usePatientServicesHook } from '@/Hooks/PatientServicesHook'
 import { ModalComponent } from '@/Components/Modal/Modal'
 import { FormContextProvider } from '@/Contexts/FormContext'
 import { PatientsForm } from './PatientsForm/PatientsForm'
@@ -9,6 +9,7 @@ import { contactPatientsFormSchema, defaultValuesPatientsForm } from './Patients
 import { FieldValues } from 'react-hook-form'
 import { Button } from '@/Components/ui/button'
 import { Spinner, Stack } from '@chakra-ui/react'
+import { PatientsFull } from '@/Services/Patients/patients.type'
 
 export const PatientsListContainer = () => {
   const [actionStep, setActionStep] = useState<string | undefined>(undefined);

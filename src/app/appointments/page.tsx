@@ -1,10 +1,11 @@
+import { AppointmentsListContainer } from "@/Pages/Appointments/AppointmentsListContainer";
 import { Text } from "@chakra-ui/react";
 import React from "react";
 
 export default function Home() {
   return (
     <React.Fragment>
-     <Text fontSize='6x1'>Gerenciar Consultas</Text>
+     <AppointmentsListContainer />
     </React.Fragment>
   );
 }

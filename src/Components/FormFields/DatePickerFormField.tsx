@@ -11,9 +11,10 @@ type DatePickerFormFieldProps = {
 } & InputProps;
 
 export const DatePickerFormField = ({ name, label, ...rest }: DatePickerFormFieldProps) => {
-  const { control, setValue, watch } = useFormContext();
+  const { control, setValue, watch, errors } = useFormContext();
 
   const formatShowValue = String(watch(name)).slice(0, 10);
+  const errorMessage = errors[name]?.message as string ?? "" ; 
   return (
     <Controller
       name={name}
@@ -37,7 +38,7 @@ export const DatePickerFormField = ({ name, label, ...rest }: DatePickerFormFiel
               value={formatShowValue ?? value}
               {...rest}
             />
-            {!!error && <p className="text-[10px] text-red-500">{error?.message}</p>}
+            {!!errors && errorMessage.length > 0 && <p className="text-[10px] text-red-500">{errorMessage}</p>} 
           </Grid>
         )
       }}

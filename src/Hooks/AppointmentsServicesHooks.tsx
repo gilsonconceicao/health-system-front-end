@@ -1,8 +1,8 @@
-import { createOrEditPatientAsync, deletePatientByIdAsync, getPatientsListAsync } from "@/Services/Patients/PatientsServices"
-import { PatientsFull } from "@/Services/Patients/patients.type";
+import { createOrEditAppointmentAsync, deleteAppointmentsByIdAsync, getAppointmentsListAsync } from "@/Services/Appointmnets/AppointmentsServices";
+import { AppointmentsFull } from "@/Services/Appointmnets/appointments.type";
 import { useMutation, useQuery } from "@tanstack/react-query"
 
-export const usePatientServicesHook = () => {
+export const useAppointmentsServicesHook = () => {
 
     const { data, ...rest } = useQuery({
         queryKey: ["get-patients"],
@@ -10,8 +10,7 @@ export const usePatientServicesHook = () => {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         queryFn: async () => {
-            const response = await getPatientsListAsync();
-
+            const response = await getAppointmentsListAsync();
             return response?.data;
         }
     })
@@ -22,10 +21,10 @@ export const usePatientServicesHook = () => {
     }
 }
 
-export const useCreateOrEditPatientMutation = (id: string, onSuccess?: () => void) => {
+export const useCreateOrEditAppointmentsMutation = (id: string, onSuccess?: () => void) => {
     return useMutation({
-        mutationFn: async (params: PatientsFull) => {
-            await createOrEditPatientAsync(params, id)
+        mutationFn: async (params: AppointmentsFull) => {
+            await createOrEditAppointmentAsync(params, id)
         },
         onSuccess: (success, _) => onSuccess && onSuccess(), 
         onError: (error, _) => {
@@ -34,10 +33,10 @@ export const useCreateOrEditPatientMutation = (id: string, onSuccess?: () => voi
     })
 }
 
-export const useDeletePatientMutation = (onSuccess?: () => void) => {
+export const useDeleteAppointmentsMutation = (onSuccess?: () => void) => {
     return useMutation({
         mutationFn: async (id: string) => {
-            await deletePatientByIdAsync(id)
+            await deleteAppointmentsByIdAsync(id)
         },
         onSuccess: (success, _) => onSuccess && onSuccess(), 
         onError: (error, _) => {

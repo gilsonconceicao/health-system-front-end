@@ -1,5 +1,5 @@
-import { PatientsFull } from "@/Hooks/PatientServicesHook"
 import axios from "axios"
+import { PatientsFull } from "./patients.type";
 
 const url = "http://localhost:8080/Patient"; 
 
