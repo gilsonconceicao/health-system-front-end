@@ -7,7 +7,7 @@ export const getPatientsListAsync = async () => {
    return await axios.get(url, {
       params: {
          page: 0, 
-         size: 100
+         size: 15
       }
    }) 
 }

@@ -43,9 +43,13 @@ export const PatientsList = ({ data, setActionStep, setRowSelected }: PatientsLi
       cell: ({ row }) => <div>{row.getValue("gender")}</div>,
     },
     {
-      accessorKey: "birthDate",
+      accessorKey: "birthDateDisplay",
       header: "Data de nascimento",
-      cell: ({ row }) => <div>{new Date(row.getValue("birthDate")).toLocaleDateString('pt-BR')}</div>,
+      cell: ({ row }) => {
+        const formatDate = String(row.getValue("birthDateDisplay")).slice(0,10);
+        debugger
+        return <div>{formatDate}</div>
+      },
     },
     {
       accessorKey: "phoneNumber",

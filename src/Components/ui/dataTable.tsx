@@ -4,7 +4,10 @@ import * as React from "react"
 import {
     ColumnDef,
     ColumnFiltersState,
+    OnChangeFn,
+    PaginationState,
     SortingState,
+    Updater,
     VisibilityState,
     flexRender,
     getCoreRowModel,
@@ -39,11 +42,15 @@ import { Text } from "@chakra-ui/react"
 export type DataTableDemoProps<T> = {
     title: string;
     columns: ColumnDef<T>[];
-    data: T[]; 
+    data: T[];
     noResultLabel?: string
+    onPaginationChange?: OnChangeFn<PaginationState>;
+    setPageIndex?: (defaultState?: boolean) => void
+    setPageSize?: (updater: Updater<number>) => void
+    pageCount?: number
 }
 
-export function DataTableDemo<T> ({ title, columns, data, noResultLabel}: DataTableDemoProps<T>) {
+export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCount, onPaginationChange, setPageIndex, setPageSize }: DataTableDemoProps<T>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -74,7 +81,7 @@ export function DataTableDemo<T> ({ title, columns, data, noResultLabel}: DataTa
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-               <Text fontSize='19px' fontWeight='bold'>{title}</Text>
+                <Text fontSize='19px' fontWeight='bold'>{title}</Text>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
@@ -152,30 +159,6 @@ export function DataTableDemo<T> ({ title, columns, data, noResultLabel}: DataTa
                     </TableBody>
                 </Table>
             </div>
-            {/* <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} linhas selecionadas.
-                </div>
-                <div className="space-x-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Next
-                    </Button>
-                </div>
-            </div> */}
         </div>
     )
 }
