@@ -11,9 +11,10 @@ type PatientsListProps = {
   data: PatientsFull[];
   setActionStep: React.Dispatch<React.SetStateAction<string | undefined>>;
   setRowSelected: (data: PatientsFull) => void;
+  isLoading: boolean
 }
 
-export const PatientsList = ({ data, setActionStep, setRowSelected }: PatientsListProps) => {
+export const PatientsList = ({ data, setActionStep, setRowSelected, isLoading }: PatientsListProps) => {
 
   const columns: ColumnDef<PatientsFull>[] = [
     {
@@ -85,13 +86,11 @@ export const PatientsList = ({ data, setActionStep, setRowSelected }: PatientsLi
   ]
 
   return (
-    <div>
-      <DataGridTable<PatientsFull>
-        data={data ?? []}
-        columns={columns}
-        title='Pacientes'
-
-      />
-    </div>
+    <DataGridTable<PatientsFull>
+      data={data ?? []}
+      columns={columns}
+      title='Pacientes'
+      isLoading={isLoading}
+    />
   )
 }

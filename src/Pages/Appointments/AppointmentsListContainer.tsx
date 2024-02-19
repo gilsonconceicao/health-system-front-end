@@ -15,7 +15,7 @@ import { AppointmentsActions } from './AppointmentsActions'
 
 export const AppointmentsListContainer = () => {
   const [action, setAction] = useState<{ action: string, data?: AppointmentsFull } | undefined>(undefined);
-  const { data: appointmentsData, refetch, isPending } = useAppointmentsServicesHook();
+  const { data: appointmentsData, refetch, isPending, isFetching } = useAppointmentsServicesHook();
 
   const onCloseStep = () => setAction(undefined)
 
@@ -41,16 +41,13 @@ export const AppointmentsListContainer = () => {
 
       </Stack>
 
-      {isPending ?
-        <div style={{ margin: "10px 0" }}>
-          <Spinner />
-        </div>
-        :
-        <AppointmentsList
-          setAction={(preferences) => setAction(preferences)}
-          data={appointmentsData?.data ?? []}
-        />
-      }
+
+      <AppointmentsList
+        setAction={(preferences) => setAction(preferences)}
+        data={appointmentsData?.data ?? []}
+        isLoading={isPending || isFetching}
+      />
+
 
       <DrawerComponent
         isOpen={action?.action === 'showMenu'}
@@ -58,7 +55,7 @@ export const AppointmentsListContainer = () => {
         title='Ações'
         placement='left'
         size='md'
-        Element={<AppointmentsActions rowSelected={action?.data!} handleSuccess={handleSuccess}/>}
+        Element={<AppointmentsActions rowSelected={action?.data!} handleSuccess={handleSuccess} />}
       />
 
       <ModalComponent

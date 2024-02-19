@@ -11,6 +11,7 @@ import { Button } from '@/Components/ui/button'
 import { Spinner, Stack } from '@chakra-ui/react'
 import { PatientsFull } from '@/Services/Patients/patients.type'
 import DrawerComponent from '@/Components/Drawer/DrawerComponent'
+import { SkeletonList } from '@/Components/Skeleton/SkeletonList/SkeletonList'
 
 export const PatientsListContainer = () => {
   const [actionStep, setActionStep] = useState<string | undefined>(undefined);
@@ -42,26 +43,23 @@ export const PatientsListContainer = () => {
     <div>
 
       <Stack direction='row' alignItems='center'>
-        <Button onClick={handleActionCreate}>
+        <Button disabled={isLoading} onClick={handleActionCreate}>
           Criar paciente
         </Button>
-        <Button onClick={() => refetch()} variant='outline' >
-          Atualizar
+        <Button disabled={isLoading} onClick={() => refetch()} variant='outline' >
+          Atualizar{isLoading}
         </Button>
 
       </Stack>
 
-      {isLoading ?
-        <div style={{margin: "10px 0"}}>
-          <Spinner />
-        </div>
-        :
-        <PatientsList
-          setActionStep={setActionStep}
-          data={patientsData?.data ?? []}
-          setRowSelected={(values) => setRowSelected(values)}
-        />
-      }
+
+      <PatientsList
+        setActionStep={setActionStep}
+        data={patientsData?.data ?? []}
+        setRowSelected={(values) => setRowSelected(values)}
+        isLoading={isLoading}
+      />
+
 
       <DrawerComponent
         title={actionStep === 'edit' ? "Editar paciente" : "Criar paciente"}

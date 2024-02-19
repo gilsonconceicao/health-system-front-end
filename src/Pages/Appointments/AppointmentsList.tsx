@@ -13,9 +13,10 @@ type AppointmentsListProps = {
     action: string;
     data?: AppointmentsFull | undefined;
   } | undefined>>;
+  isLoading: boolean
 }
 
-export const AppointmentsList = ({ data, setAction }: AppointmentsListProps) => {
+export const AppointmentsList = ({ data, setAction, isLoading }: AppointmentsListProps) => {
 
   const columns: ColumnDef<AppointmentsFull>[] = [
     {
@@ -41,7 +42,7 @@ export const AppointmentsList = ({ data, setAction }: AppointmentsListProps) => 
     },
     {
       accessorKey: "statusDisplay",
-      header: "Status", 
+      header: "Status",
       cell: ({ row }) => {
         return <div>{row.getValue("statusDisplay")}</div>
       },
@@ -70,7 +71,7 @@ export const AppointmentsList = ({ data, setAction }: AppointmentsListProps) => 
         data={data ?? []}
         columns={columns}
         title='Pacientes'
-
+        isLoading={isLoading}
       />
     </div>
   )

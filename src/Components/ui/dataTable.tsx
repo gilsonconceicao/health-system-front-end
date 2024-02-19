@@ -39,11 +39,13 @@ import {
 } from "./table"
 import { Stack, Text } from "@chakra-ui/react"
 import { Input } from "./input"
+import { SkeletonList } from "../Skeleton/SkeletonList/SkeletonList"
 
 export type DataTableDemoProps<T> = {
     title: string;
     columns: ColumnDef<T>[];
     data: T[];
+    isLoading?: boolean;
     noResultLabel?: string
     onPaginationChange?: OnChangeFn<PaginationState>;
     setPageIndex?: (defaultState?: boolean) => void
@@ -51,7 +53,7 @@ export type DataTableDemoProps<T> = {
     pageCount?: number
 }
 
-export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCount, onPaginationChange, setPageIndex, setPageSize }: DataTableDemoProps<T>) {
+export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCount, onPaginationChange, setPageIndex, setPageSize, isLoading}: DataTableDemoProps<T>) {
     const [datatable, setDatatable] = React.useState<T[]>([]);
 
     const [searchValue, setSearchValue] = React.useState<string>('');
@@ -99,95 +101,96 @@ export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCoun
     
 
     return (
-        <div className="w-full">
-            <div className="flex items-center py-4">
-                <Stack>
-                    <Text fontSize='19px' fontWeight='bold'>{title}</Text>
-                    <Input
-                        placeholder="Filtrar"
-                        value={searchValue}
-                        onChange={handleInputChange}
-                        className="max-w-sm"
-                    />
-
-                </Stack>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Colunas <ChevronDown className="ml-2 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
+        <SkeletonList isLoading={!isLoading}>
+            <div className="w-full">
+                <div className="flex items-center py-4">
+                    <Stack>
+                        <Text fontSize='19px' fontWeight='bold'>{title}</Text>
+                        <Input
+                            placeholder="Filtrar"
+                            value={searchValue}
+                            onChange={handleInputChange}
+                            className="max-w-sm"
+                        />
+                    </Stack>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="ml-auto">
+                                Colunas <ChevronDown className="ml-2 h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
                                     return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                        </TableHead>
+                                        <DropdownMenuCheckboxItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value) =>
+                                                column.toggleVisibility(!!value)
+                                            }
+                                        >
+                                            {column.id}
+                                        </DropdownMenuCheckboxItem>
                                     )
                                 })}
-                            </TableRow>
-                        ))}
-                    </TableHeader>
-                    <TableBody>
-                        {table?.getRowModel()?.rows?.length ? (
-                            table?.getRowModel()?.rows?.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </TableCell>
-                                    ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+                <div className="rounded-md border">
+                    <Table>
+                        <TableHeader>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <TableRow key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => {
+                                        return (
+                                            <TableHead key={header.id}>
+                                                {header.isPlaceholder
+                                                    ? null
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )}
+                                            </TableHead>
+                                        )
+                                    })}
                                 </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                    className="h-24 text-center"
-                                >
-                                    {noResultLabel ?? "Não contém dados"}
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
+                            ))}
+                        </TableHeader>
+                        <TableBody>
+                            {table?.getRowModel()?.rows?.length ? (
+                                table?.getRowModel()?.rows?.map((row) => (
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={row.getIsSelected() && "selected"}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                            <TableCell key={cell.id}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        colSpan={columns.length}
+                                        className="h-24 text-center"
+                                    >
+                                        {noResultLabel ?? "Não contém dados"}
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </div>
             </div>
-        </div>
+        </SkeletonList>
     )
 }
