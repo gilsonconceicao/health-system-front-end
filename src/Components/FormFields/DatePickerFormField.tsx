@@ -31,7 +31,7 @@ export const DatePickerFormField = ({ name, label, ...rest }: DatePickerFormFiel
               placeholder={label}
               onChange={(event) => {
                 const inputValue = event.target.value;
-                const isoDate = new Date(inputValue).toISOString();
+                const isoDate = new Date(inputValue)?.toISOString();
                 setValue(name, isoDate);
                 setValue(`${name}Display`, value); 
               }}

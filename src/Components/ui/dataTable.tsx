@@ -37,7 +37,8 @@ import {
     TableHeader,
     TableRow,
 } from "./table"
-import { Text } from "@chakra-ui/react"
+import { Stack, Text } from "@chakra-ui/react"
+import { Input } from "./input"
 
 export type DataTableDemoProps<T> = {
     title: string;
@@ -51,6 +52,9 @@ export type DataTableDemoProps<T> = {
 }
 
 export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCount, onPaginationChange, setPageIndex, setPageSize }: DataTableDemoProps<T>) {
+    const [datatable, setDatatable] = React.useState<T[]>([]);
+
+    const [searchValue, setSearchValue] = React.useState<string>('');
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -59,8 +63,22 @@ export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCoun
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setSearchValue(value);
+    };
+
+    React.useEffect(() => {
+        const filteredData = data.filter(item => {
+            return Object.values(item ?? {}).some((value: any) =>
+                value?.toString()?.toLowerCase()?.includes(searchValue?.toLowerCase())
+            );
+        });
+        setDatatable(filteredData)
+    }, [data, searchValue])
+
     const table = useReactTable({
-        data,
+        data: datatable ,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -78,10 +96,21 @@ export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCoun
         },
     })
 
+    
+
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <Text fontSize='19px' fontWeight='bold'>{title}</Text>
+                <Stack>
+                    <Text fontSize='19px' fontWeight='bold'>{title}</Text>
+                    <Input
+                        placeholder="Filtrar"
+                        value={searchValue}
+                        onChange={handleInputChange}
+                        className="max-w-sm"
+                    />
+
+                </Stack>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

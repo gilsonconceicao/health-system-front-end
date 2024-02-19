@@ -13,7 +13,12 @@ export const contactPatientsFormSchema = yup.object({
     zipCode: yup.string().nullable(),
     city: yup.string().nullable(),
     number: yup.string().nullable()
-  })
+  }).nullable()
+    .transform((value, originalValue) => {
+      const list = ["street", "state", "zipCode", "city", "number"];
+      const hasNonNullValues = list.some(field => originalValue[field] !== null && String(originalValue[field]).trim().length > 0);
+      return hasNonNullValues ? value : null;
+    })
 });
 
 export const defaultValuesPatientsForm = {
@@ -21,7 +26,7 @@ export const defaultValuesPatientsForm = {
   lastName: null,
   email: null,
   phoneNumber: null,
-  birthDate: null, 
-  gender: null, 
+  birthDate: null,
+  gender: null,
   address: null
 }; 
