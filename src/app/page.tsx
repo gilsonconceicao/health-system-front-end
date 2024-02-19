@@ -1,11 +1,10 @@
-import { Header } from "@/Components/Header/Header";
-import { Dashboard } from "@/Pages/Dashboard/Dashboard";
+import { DashboardContainer } from "@/Pages/Dashboard/DashboardContainer";
 import React from "react";
 
 export default function Home() {
   return (
     <React.Fragment>
-      <Dashboard />
+      <DashboardContainer />
     </React.Fragment>
   );
 }
