@@ -1,4 +1,5 @@
 import { getDashboardData } from "@/Services/Dashboard/Dashboard";
+import { DashboardType } from "@/Services/Dashboard/Dashboard.type";
 import {  useQuery } from "@tanstack/react-query"
 
 export const useDashboardQuery = () => {
@@ -10,7 +11,7 @@ export const useDashboardQuery = () => {
         refetchOnMount: false,
         queryFn: async () => {
             const response = await getDashboardData();
-            return response?.data;
+            return response?.data as DashboardType;
         }
     })
 

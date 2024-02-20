@@ -17,7 +17,7 @@ export const FeedbackForm: React.FC<FeedbackFormProps> = ({
             <TextFormField
                 label='Feedmack'
                 placeholder='Escreva um comentário para o feedback'
-                name='FeedbackMessage'
+                name='feedbackMessage'
             />
             <Button type='submit' disabled={isLoading}>Salvar</Button>
         </Stack>

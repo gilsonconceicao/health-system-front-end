@@ -2,7 +2,7 @@ import { Text } from '@chakra-ui/react'
 import React from 'react'
 
 type TextCustomProps = {
-    value: string;
+    value: string | number;
     style?: React.CSSProperties
 }
 

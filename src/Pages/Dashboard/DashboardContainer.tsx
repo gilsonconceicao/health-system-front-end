@@ -6,10 +6,12 @@ import { useDashboardQuery } from '@/Hooks/DashboardServicesHook'
 
 export const DashboardContainer = () => {
     const { data, isFetching, isPending } = useDashboardQuery();
+
+
     return (
         <div>
             <SkeletonDashboard isLoading={isFetching || isPending}>
-                <Dashboard />
+                <Dashboard data={data!}/>
             </SkeletonDashboard>
         </div>
     )

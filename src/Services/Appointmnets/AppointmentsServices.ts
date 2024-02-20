@@ -21,7 +21,5 @@ export const jumpEveryStepsAppointmentsAsync = async (id: string, type: OptionsT
 }
 
 export const feedbackAppointmentsAsync = async (id: string, feedbackMessage: string) => {
-   return await axios.post(`${url}/${id}/Feedback`, {
-      feedbackMessage
-   })
+   return await axios.post(`${url}/${id}/Feedback`, {feedbackMessage})
 }
