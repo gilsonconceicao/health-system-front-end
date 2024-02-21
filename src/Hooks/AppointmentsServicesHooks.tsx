@@ -5,10 +5,10 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 export const useAppointmentsServicesHook = () => {
 
     const { data, ...rest } = useQuery({
-        queryKey: ["get-appointmens-data"],
+        queryKey: ["appointmens-data-list-data"],
         refetchInterval: false,
         refetchOnWindowFocus: false,
-        refetchOnMount: false,
+        refetchOnMount: 'always',
         queryFn: async () => {
             const response = await getAppointmentsListAsync();
             return response?.data;

@@ -15,7 +15,6 @@ export default function Feedback({ list }: FeedbackProps) {
             {list.length > 0 ? (
                 <React.Fragment>
                     {list.map((item, index) => {
-                        debugger
                         return (
                             <div key={index} className='p-2 flex items-center bg-[#e9e9e942] m-2 justify-between'>
                                 <div>

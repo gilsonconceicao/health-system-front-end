@@ -8,7 +8,7 @@ export const useDashboardQuery = () => {
         queryKey: ["get-appointmens-data"],
         refetchInterval: false,
         refetchOnWindowFocus: false,
-        refetchOnMount: false,
+        refetchOnMount: 'always',
         queryFn: async () => {
             const response = await getDashboardData();
             return response?.data as DashboardType;

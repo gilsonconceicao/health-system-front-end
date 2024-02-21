@@ -133,7 +133,7 @@ export function DataTableDemo<T>({ title, columns, data, noResultLabel, pageCoun
                                                 column.toggleVisibility(!!value)
                                             }
                                         >
-                                            {column.id}
+                                            {column.columnDef.header! as string}
                                         </DropdownMenuCheckboxItem>
                                     )
                                 })}

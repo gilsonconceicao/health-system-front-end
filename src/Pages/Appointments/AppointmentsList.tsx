@@ -70,7 +70,7 @@ export const AppointmentsList = ({ data, setAction, isLoading }: AppointmentsLis
       <DataGridTable<AppointmentsFull>
         data={data ?? []}
         columns={columns}
-        title='Pacientes'
+        title='Consultas'
         isLoading={isLoading}
       />
     </div>
