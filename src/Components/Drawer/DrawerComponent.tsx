@@ -1,5 +1,6 @@
 import { Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, DrawerProps } from '@chakra-ui/react'
 import React from 'react'
+import { Toaster } from '../ui/toaster';
 
 type DrawerComponentProps = {
     title: string;
@@ -23,6 +24,7 @@ export default function DrawerComponent(props: DrawerComponentProps) {
                 <DrawerBody>
                     {Element}
                 </DrawerBody>
+                <Toaster />
             </DrawerContent>
         </Drawer>
     )

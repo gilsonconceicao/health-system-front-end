@@ -25,7 +25,7 @@ export const DatePickerFormField = ({ name, label, ...rest }: DatePickerFormFiel
       }) => {
         return (
           <Grid>
-            {!!value && <label style={{ fontSize: '12px' }}>{label}</label>}
+            <label style={{ fontSize: '12px' }}>{label}</label>
             <Input
               type="date"
               placeholder={label}

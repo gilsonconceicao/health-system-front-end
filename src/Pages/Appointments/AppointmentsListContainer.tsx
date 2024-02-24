@@ -14,6 +14,7 @@ import DrawerComponent from '@/Components/Drawer/DrawerComponent'
 import { AppointmentsActions } from './AppointmentsActions'
 
 export const AppointmentsListContainer = () => {
+
   const [action, setAction] = useState<{ action: string, data?: AppointmentsFull } | undefined>(undefined);
   const { data: appointmentsData, refetch, isPending, isFetching } = useAppointmentsServicesHook();
 
@@ -47,7 +48,6 @@ export const AppointmentsListContainer = () => {
         data={appointmentsData?.data ?? []}
         isLoading={isPending || isFetching}
       />
-
 
       <DrawerComponent
         isOpen={action?.action === 'showMenu'}

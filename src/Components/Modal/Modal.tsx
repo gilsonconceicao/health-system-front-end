@@ -1,4 +1,5 @@
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
+import { Toaster } from "../ui/toaster";
 
 type ModalComponentProps = {
     title: string;
@@ -21,6 +22,7 @@ export function ModalComponent({ Element, title, description,  ...rest}: ModalCo
                 <ModalBody>
                    {Element}
                 </ModalBody>
+                <Toaster />
             </ModalContent>
         </Modal>
     )
