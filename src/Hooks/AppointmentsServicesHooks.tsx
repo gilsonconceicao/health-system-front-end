@@ -75,7 +75,7 @@ export const useJumpStepsAppointmentsMutation = (type: OptionsTypeSteps, onSucce
             const successMessage: {[typr:string] : string} = {
                 "Completed": "Booa! Consulta concluída com sucesso!", 
                 "Cancel": "Consulta concelada com sucesso!", 
-                "ConfirmParticipation": "Participação cancelada com sucesso!", 
+                "ConfirmParticipation": "Participação confirmada com sucesso!", 
             }
             toast({
                 title: successMessage[type!]
@@ -101,12 +101,6 @@ export const useAddFeedbackMutation = (id: string, onSuccess?: () => void) => {
             })
             onSuccess && onSuccess(); 
         },
-        onError: (error: ApiReponseError, _) => {
-            // const {errorMessage} = MapperErrorMessage(error); 
-            toast({
-                variant: 'destructive',
-                description: 'errorMessage'
-            })
-        }
+        onError: (error: ApiReponseError, _) => handlerErrorMessage(error)
     })
 }

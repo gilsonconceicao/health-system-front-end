@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { MdOutlineCancel } from "react-icons/md";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { GiConfirmed } from "react-icons/gi";
-import { FaCalendarCheck } from "react-icons/fa6";
 import { useAddFeedbackMutation, useDeleteAppointmentsMutation, useJumpStepsAppointmentsMutation } from '@/Hooks/AppointmentsServicesHooks';
 import { AppointmentsFull, OptionsTypeSteps } from '@/Services/Appointmnets/appointments.type';
 import { ModalComponent } from '@/Components/Modal/Modal';
@@ -12,6 +11,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FormContextProvider } from '@/Contexts/FormContext';
 import { FeedbackForm } from './FeedbackForm/FeedbackForm';
 import { defaultValuesFeedbackForm, feedbackFormSchema } from './FeedbackForm/FeedbackFormSchema';
+import { IoIosCheckboxOutline } from "react-icons/io";
 
 type AppointmentsActionsProps = {
     rowSelected: AppointmentsFull
@@ -68,7 +68,7 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
         },
         "addFeedback": {
             onClick: () => { },
-            title: "Adicionar feedback",
+            title: "Adicionar comentário",
             description: "Informe um feedback: Seja elogios, críticas ou sugestões", 
             component: (
                 <FormContextProvider
@@ -109,22 +109,10 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
             <Actions
                 options={[
                     {
-                        action: () => setAction('cancelAppointment'),
-                        label: "Cancelar",
-                        icon: <MdOutlineCancel />,
-                        enable: disableAction
-                    },
-                    {
                         action: () => setAction('addFeedback'),
                         label: "Adicionar feedback",
                         icon: <FaRegCommentAlt />,
-                        enable: currentStatus === "Concluída"
-                    },
-                    {
-                        action: () => setAction('delete'),
-                        label: "Excluir",
-                        icon: <FaRegTrashAlt />,
-                        enable: true
+                        enable: currentStatus === "Concluída" || currentStatus === 'Presença confirmada'
                     },
                     {
                         action: () => setAction('confirmPresence'),
@@ -135,8 +123,20 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
                     {
                         action: () => setAction('finished'),
                         label: "Concluir",
-                        icon: <FaCalendarCheck />,
+                        icon: <IoIosCheckboxOutline />,
                         enable: [currentStatus].includes(currentStatus!)
+                    },
+                    {
+                        action: () => setAction('cancelAppointment'),
+                        label: "Cancelar",
+                        icon: <MdOutlineCancel />,
+                        enable: disableAction
+                    },
+ {
+                        action: () => setAction('delete'),
+                        label: "Excluir",
+                        icon: <FaRegTrashAlt />,
+                        enable: true
                     },
                 ]}
             />
