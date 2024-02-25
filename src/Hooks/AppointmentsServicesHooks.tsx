@@ -1,9 +1,10 @@
 import { useToast } from "@/Components/ui/use-toast";
-import { ErrorType } from "@/Contexts/ErrorsContext";
 import { createOrEditAppointmentAsync, deleteAppointmentsByIdAsync, feedbackAppointmentsAsync, getAppointmentsListAsync, jumpEveryStepsAppointmentsAsync } from "@/Services/Appointmnets/AppointmentsServices";
 import { appointmentsCreate, OptionsTypeSteps } from "@/Services/Appointmnets/appointments.type";
 import { ApiReponseError, MapperErrorMessage } from "@/Validations/MapperErrorMessage";
+import { handlerErrorMessage } from "@/Validations/handlerErrorsMessage";
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { isArray } from "util";
 
 export const useAppointmentsServicesHook = () => {
 
@@ -25,7 +26,7 @@ export const useAppointmentsServicesHook = () => {
 }
 
 export const useCreateOrEditAppointmentsMutation = (onSuccess?: () => void) => {
-    const { toast } = useToast(); 
+    const { toast } = useToast();
 
     return useMutation({
         mutationFn: async (params: appointmentsCreate) => {
@@ -33,68 +34,78 @@ export const useCreateOrEditAppointmentsMutation = (onSuccess?: () => void) => {
                 appointmentDate: params.appointmentDate,
                 reason: params.reason
             }
-            await createOrEditAppointmentAsync(payload, params.patientId); 
+            await createOrEditAppointmentAsync(payload, params.patientId);
         },
-        onSuccess: (success, _) => onSuccess && onSuccess(),
-        onError: (error: ApiReponseError, _) => {
-            const {errorMessage} = MapperErrorMessage(error); 
+        onSuccess: (success, _) => {
             toast({
-                variant: 'destructive', 
-                description: errorMessage
+                title: "Consulta criada com sucesso"
             })
-        }
+            onSuccess && onSuccess(); 
+        },
+        onError: (error: ApiReponseError, _) => handlerErrorMessage(error)
     })
 }
 
 export const useDeleteAppointmentsMutation = (onSuccess?: () => void) => {
-    const { toast } = useToast(); 
+    const { toast } = useToast();
 
     return useMutation({
         mutationFn: async (id: string) => {
             await deleteAppointmentsByIdAsync(id)
         },
-        onSuccess: (success, _) => onSuccess && onSuccess(),
-        onError: (error: ApiReponseError, _) => {
-            const {errorMessage} = MapperErrorMessage(error); 
+        onSuccess: (success, _) => {
             toast({
-                variant: 'destructive', 
-                description: errorMessage
+                title: "Sucesso ao excluir à consulta"
             })
-        }
+            onSuccess && onSuccess(); 
+        },
+        onError: (error: ApiReponseError, _) => handlerErrorMessage(error)
+
     })
 }
 
 export const useJumpStepsAppointmentsMutation = (type: OptionsTypeSteps, onSuccess?: () => void) => {
-    const { toast } = useToast(); 
+    const { toast } = useToast();
 
     return useMutation({
         mutationFn: async (id: string) => {
             await jumpEveryStepsAppointmentsAsync(id, type)
         },
-        onSuccess: (success, _) => onSuccess && onSuccess(),
-        onError: (error: ApiReponseError, _) => {
-            const {errorMessage} = MapperErrorMessage(error); 
+        onSuccess: (success, _) => {
+            const successMessage: {[typr:string] : string} = {
+                "Completed": "Booa! Consulta concluída com sucesso!", 
+                "Cancel": "Consulta concelada com sucesso!", 
+                "ConfirmParticipation": "Participação cancelada com sucesso!", 
+            }
             toast({
-                variant: 'destructive', 
-                description: errorMessage
+                title: successMessage[type!]
             })
-        }
+            onSuccess && onSuccess(); 
+        },
+        onError: (error: ApiReponseError, _) => handlerErrorMessage(error)
+
     })
 }
 
 export const useAddFeedbackMutation = (id: string, onSuccess?: () => void) => {
-    const { toast } = useToast(); 
+    const { toast } = useToast();
 
     return useMutation({
         mutationFn: async (message: string) => {
             await feedbackAppointmentsAsync(id, message)
         },
-        onSuccess: (success, _) => onSuccess && onSuccess(),
-        onError: (error: ApiReponseError, _) => {
-            const {errorMessage} = MapperErrorMessage(error); 
+        onSuccess: (success, _) => {
             toast({
-                variant: 'destructive', 
-                description: errorMessage
+                title: "Booa!", 
+                description: "Agora você pode acompanhar o seu e outros comentários na tela inicial"
+            })
+            onSuccess && onSuccess(); 
+        },
+        onError: (error: ApiReponseError, _) => {
+            // const {errorMessage} = MapperErrorMessage(error); 
+            toast({
+                variant: 'destructive',
+                description: 'errorMessage'
             })
         }
     })

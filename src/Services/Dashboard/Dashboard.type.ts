@@ -4,6 +4,7 @@ export type DashboardType = {
    totalsAppointments: number
    totalsAppointmentsCancelled: number
    totalsAppointmentsConfirmed: number
+   totalsAppointmentsFinished: number
 }
 
 export type FeedbackType = { 

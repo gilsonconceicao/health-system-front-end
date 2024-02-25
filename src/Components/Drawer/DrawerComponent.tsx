@@ -24,7 +24,7 @@ export default function DrawerComponent(props: DrawerComponentProps) {
                 <DrawerBody>
                     {Element}
                 </DrawerBody>
-                <Toaster />
+                {/* <Toaster /> */}
             </DrawerContent>
         </Drawer>
     )

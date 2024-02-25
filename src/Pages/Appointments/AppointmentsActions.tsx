@@ -110,7 +110,7 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
                 options={[
                     {
                         action: () => setAction('cancelAppointment'),
-                        label: "Cancelar consulta",
+                        label: "Cancelar",
                         icon: <MdOutlineCancel />,
                         enable: disableAction
                     },
@@ -118,7 +118,7 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
                         action: () => setAction('addFeedback'),
                         label: "Adicionar feedback",
                         icon: <FaRegCommentAlt />,
-                        enable: currentStatus !== 'Cancelada'
+                        enable: currentStatus === "Concluída"
                     },
                     {
                         action: () => setAction('delete'),
@@ -130,13 +130,13 @@ export const AppointmentsActions: React.FC<AppointmentsActionsProps> = ({
                         action: () => setAction('confirmPresence'),
                         label: "Confirmar presença",
                         icon: <GiConfirmed />,
-                        enable: disableAction
+                        enable: disableAction && currentStatus !== 'Presença confirmada'
                     },
                     {
                         action: () => setAction('finished'),
                         label: "Concluir",
                         icon: <FaCalendarCheck />,
-                        enable: disableAction
+                        enable: [currentStatus].includes(currentStatus!)
                     },
                 ]}
             />
